@@ -1,3 +1,6 @@
+//First review - 10, Feb - wrote a working code
+//Second review - 12, Feb - added wait time bettween pulse cycles
+
 #define DEBUG_BUILD   // comment out for PRODUCTION
 
 #ifdef DEBUG_BUILD
@@ -8,6 +11,7 @@
 
 #define ON(pin) digitalWrite(pin, HIGH)
 #define OFF(pin) digitalWrite(pin, LOW)
+#define WAIT(us) delayMicroseconds(us)
 
 
 //Input pins
@@ -84,30 +88,34 @@ void loop() {
       //normal form
       OFF(SIGNAL_A);
       ON(SIGNAL_B);
-      delayMicroseconds(T_SYNC_ON);
+      WAIT(T_SYNC_ON);
 
       for(int i = 1; i <= NUM; i++){
         ON(SIGNAL_A);
         OFF(SIGNAL_B);
-        delayMicroseconds(getT_ON(i));
+        WAIT(getT_ON(i));
 
         OFF(SIGNAL_A);
-        delayMicroseconds(T_OFF);
+        WAIT(T_OFF);
       }
+
+       WAIT(T_WAIT);
     }else{
       // alternative form
       OFF(SIGNAL_A);
       ON(SIGNAL_B);
-      delayMicroseconds(T_SYNC_ON);
+      WAIT(T_SYNC_ON);
 
       for(int i = NUM; i >= 1; i--){
         ON(SIGNAL_A);
         OFF(SIGNAL_B);
-        delayMicroseconds(getT_ON(i));
+        WAIT(getT_ON(i));
 
         OFF(SIGNAL_A);
-        delayMicroseconds(T_OFF);
+        WAIT(T_OFF);
       }
+
+      WAIT(T_WAIT);
     }
   }
 }
